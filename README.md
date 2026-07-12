@@ -8,7 +8,7 @@
 
 This is the plugin marketplace for **[Doc Holiday](https://doc.holiday)** — the documentation service behind [gloria.dev](https://gloria.dev). One repo serves multiple coding agents — [Claude Code](https://docs.claude.com/en/docs/claude-code/plugins), [OpenAI Codex](https://developers.openai.com/codex/plugins), [OpenCode](https://opencode.ai), and [Cursor](https://cursor.com) — from a single published source. Install the `doc-holiday` plugin and your agent gets Doc Holiday's documentation skills plus the hosted gloria.dev MCP server (`doc_holiday_*` tools).
 
-> **Extracted from the `gloria` marketplace.** Doc Holiday's skills used to ship inside the general-purpose [`sandgardenhq/gloria`](https://github.com/sandgardenhq/gloria) plugin. They now live here so Doc Holiday's surface can grow on its own. If you previously installed `writing-doc-holiday-prompts` via the `gloria` marketplace, keep it or reinstall it here — see [Migrating from the gloria marketplace](#migrating-from-the-gloria-marketplace) below.
+> **Extracted from the `gloria` marketplace.** Doc Holiday's skills used to ship inside the general-purpose [`sandgardenhq/gloria`](https://github.com/sandgardenhq/gloria) plugin. They now live here so Doc Holiday's surface can grow on its own. If you previously installed `writing-doc-holiday-prompts`, `defining-the-documentation-site-map`, or `capturing-documentation-screenshots` via the `gloria` marketplace, keep it or reinstall it here — see [Migrating from the gloria marketplace](#migrating-from-the-gloria-marketplace) below.
 
 ## What is Doc Holiday?
 
@@ -18,9 +18,11 @@ Doc Holiday turns your codebase into a documentation site and keeps it current. 
 
 Installing the plugin gives your agent Doc Holiday's skills and wires up the hosted MCP server. (Cursor's marketplace has no individual-user self-service install command yet — see its section below for the working-today local-plugin install.)
 
-| Skill                             | What it does                                                                                                                                              |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`writing-doc-holiday-prompts`** | Turns a documentation site map + per-page content plan into ready-to-run `@doc.holiday` create/update prompts, plus reusable Instruction Library entries. |
+| Skill                                     | What it does                                                                                                                                                                                                      |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`defining-the-documentation-site-map`** | Scans the source and emits a Diátaxis-organized documentation site map plus a per-page content plan and a Mermaid hierarchy.                                                                                      |
+| **`writing-doc-holiday-prompts`**         | Turns a documentation site map + per-page content plan into ready-to-run `@doc.holiday` create/update prompts, plus reusable Instruction Library entries.                                                         |
+| **`capturing-documentation-screenshots`** | Drives a browser to capture real product-UI screenshots for docs pages, crops out chrome/PII, and wires them in — plus exact capture instructions for shots (terminal, IDE, native dialogs) it can't take itself. |
 
 The plugin also registers the remote **gloria.dev MCP server** at `https://mcp.gloria.dev/mcp` (Streamable HTTP) under the name **doc-holiday**. The agent uses it to drive Doc Holiday's documentation service via the `doc_holiday_*` tools. The server is OAuth-protected; the first request triggers a one-time browser sign-in.
 
@@ -75,12 +77,12 @@ If your org is on a Cursor Team or Enterprise plan, an admin can instead import 
 
 ## Migrating from the gloria marketplace
 
-`writing-doc-holiday-prompts` previously shipped inside the `gloria` plugin. Nothing breaks on the day of the switch: an existing install keeps the copy it has. To move to this marketplace:
+`writing-doc-holiday-prompts`, `defining-the-documentation-site-map`, and `capturing-documentation-screenshots` previously shipped inside the `gloria` plugin. Nothing breaks on the day of the switch: an existing install keeps the copies it has. To move to this marketplace:
 
-1. (Optional) Remove the skill from your `gloria` install by updating that plugin — after the extraction it no longer bundles `writing-doc-holiday-prompts`.
+1. (Optional) Remove the skills from your `gloria` install by updating that plugin — after the extraction it no longer bundles them.
 2. Add this marketplace and install `doc-holiday` using the [Install](#install) commands for your agent.
 
-The skill's behavior is unchanged; only the marketplace it publishes through is different.
+The skills' behavior is unchanged; only the marketplace they publish through is different.
 
 ## Updating
 
