@@ -63,7 +63,7 @@ For every screenshot outside the browser's reach, give the human one self-contai
 **Where it appears:** <Page name> → <section/step>.
 **What to capture:** <exact action to take, exact state to be in, and what
 must be visible in the shot — e.g. "the resulting screen must show the
-`gloria` server entry and its authenticate prompt">.
+`doc-holiday` MCP server entry showing as connected">.
 ```
 
 Use PNG. Number them, and keep the list to genuinely uncapturable shots only — anything reachable by browser automation belongs in your own capture pass, not on this list.

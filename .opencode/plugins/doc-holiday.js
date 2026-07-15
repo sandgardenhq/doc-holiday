@@ -10,9 +10,9 @@ const skillsDir = path.resolve(__dirname, "../../skills")
 
 /**
  * Mutate an OpenCode config object to wire up Doc Holiday: register the bundled
- * skills directory and the remote gloria.dev MCP server (which hosts the
- * `doc_holiday_*` tools). Idempotent and non-clobbering — a user-defined
- * doc-holiday MCP entry wins.
+ * skills directory and the remote Doc Holiday MCP server (which hosts the
+ * `doc_holiday_*` tools), authenticated with the DOC_HOLIDAY_API_KEY env var.
+ * Idempotent and non-clobbering: a user-defined doc-holiday MCP entry wins.
  */
 export function applyDocHolidayConfig(config, dir = skillsDir) {
   config.skills = config.skills || {}
@@ -21,7 +21,8 @@ export function applyDocHolidayConfig(config, dir = skillsDir) {
   config.mcp = config.mcp || {}
   config.mcp["doc-holiday"] = config.mcp["doc-holiday"] || {
     type: "remote",
-    url: "https://mcp.gloria.dev/mcp",
+    url: "https://api.doc.holiday/mcp",
+    headers: { Authorization: `Bearer ${process.env.DOC_HOLIDAY_API_KEY ?? ""}` },
     enabled: true,
   }
   return config
@@ -29,8 +30,8 @@ export function applyDocHolidayConfig(config, dir = skillsDir) {
 
 // OpenCode plugin entry. The `config` hook receives OpenCode's config singleton;
 // mutations here are visible when skills and MCP servers are resolved later.
-// Unlike the gloria plugin, there is no `session.created` version nudge — Doc
-// Holiday has no dedicated plugin-version endpoint to poll.
+// There is no `session.created` version nudge; Doc Holiday has no dedicated
+// plugin-version endpoint to poll.
 export const docHoliday = async () => ({
   config: async (config) => {
     applyDocHolidayConfig(config)

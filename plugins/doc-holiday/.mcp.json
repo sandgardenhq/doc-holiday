@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "doc-holiday": {
+      "type": "http",
       "url": "https://api.doc.holiday/mcp",
       "headers": {
         "Authorization": "Bearer ${DOC_HOLIDAY_API_KEY}"

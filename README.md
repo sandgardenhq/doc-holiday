@@ -6,13 +6,13 @@
 
 ---
 
-This is the plugin marketplace for **[Doc Holiday](https://doc.holiday)** — the documentation service behind [gloria.dev](https://gloria.dev). One repo serves multiple coding agents — [Claude Code](https://docs.claude.com/en/docs/claude-code/plugins), [OpenAI Codex](https://developers.openai.com/codex/plugins), [OpenCode](https://opencode.ai), and [Cursor](https://cursor.com) — from a single published source. Install the `doc-holiday` plugin and your agent gets Doc Holiday's documentation skills plus the hosted gloria.dev MCP server (`doc_holiday_*` tools).
+This is the plugin marketplace for **[Doc Holiday](https://doc.holiday)**. One repo serves multiple coding agents — [Claude Code](https://docs.claude.com/en/docs/claude-code/plugins), [OpenAI Codex](https://developers.openai.com/codex/plugins), [OpenCode](https://opencode.ai), and [Cursor](https://cursor.com) — from a single published source. Install the `doc-holiday` plugin and your agent gets Doc Holiday's documentation skills plus Doc Holiday's hosted MCP server (`doc_holiday_*` tools).
 
 > **Extracted from the `gloria` marketplace.** Doc Holiday's skills used to ship inside the general-purpose [`sandgardenhq/gloria`](https://github.com/sandgardenhq/gloria) plugin. They now live here so Doc Holiday's surface can grow on its own. If you previously installed `writing-doc-holiday-prompts`, `defining-the-documentation-site-map`, or `capturing-documentation-screenshots` via the `gloria` marketplace, keep it or reinstall it here — see [Migrating from the gloria marketplace](#migrating-from-the-gloria-marketplace) below.
 
 ## What is Doc Holiday?
 
-Doc Holiday turns your codebase into a documentation site and keeps it current. You plan the information architecture, Doc Holiday writes and maintains the pages — each reconciled against the source of truth in the code. gloria.dev exposes Doc Holiday to coding agents through nine `doc_holiday_*` MCP tools (authenticated by a per-org key) and a set of skills for planning and prompting the docs.
+Doc Holiday turns your codebase into a documentation site and keeps it current. You plan the information architecture, Doc Holiday writes and maintains the pages — each reconciled against the source of truth in the code. Doc Holiday exposes itself to coding agents through nine `doc_holiday_*` MCP tools (authenticated by a Doc Holiday API key) and a set of skills for planning and prompting the docs.
 
 ## What's in the `doc-holiday` plugin
 
@@ -24,7 +24,17 @@ Installing the plugin gives your agent Doc Holiday's skills and wires up the hos
 | **`writing-doc-holiday-prompts`**         | Turns a documentation site map + per-page content plan into ready-to-run `@doc.holiday` create/update prompts, plus reusable Instruction Library entries.                                                         |
 | **`capturing-documentation-screenshots`** | Drives a browser to capture real product-UI screenshots for docs pages, crops out chrome/PII, and wires them in — plus exact capture instructions for shots (terminal, IDE, native dialogs) it can't take itself. |
 
-The plugin also registers the remote **gloria.dev MCP server** at `https://mcp.gloria.dev/mcp` (Streamable HTTP) under the name **doc-holiday**. The agent uses it to drive Doc Holiday's documentation service via the `doc_holiday_*` tools. The server is OAuth-protected; the first request triggers a one-time browser sign-in.
+The plugin also registers the remote **Doc Holiday MCP server** at `https://api.doc.holiday/mcp` (Streamable HTTP) under the name **doc-holiday**. The agent uses it to drive Doc Holiday via the `doc_holiday_*` tools. Authenticate with a Doc Holiday API key: create one under **Settings > API Keys** at <https://app.doc.holiday/settings/api-keys>, then expose it as the `DOC_HOLIDAY_API_KEY` environment variable so the plugin sends it as the `Authorization: Bearer` header.
+
+## Authentication
+
+The Doc Holiday MCP server authenticates with a Doc Holiday API key. Create one under **Settings > API Keys** at <https://app.doc.holiday/settings/api-keys>, then make it available to your coding agent as the `DOC_HOLIDAY_API_KEY` environment variable:
+
+```bash
+export DOC_HOLIDAY_API_KEY="atn-..."
+```
+
+The plugin sends the key to the server as an `Authorization: Bearer` header. Without a valid key the server returns a `401` explaining how to create one. Treat the key like a password: it is scoped to your organization.
 
 ## Install
 
@@ -37,7 +47,7 @@ Pick your agent. Each command below is run from inside that agent unless noted.
 /plugin install doc-holiday@doc-holiday
 ```
 
-The first command registers this marketplace; the second installs the `doc-holiday` plugin (its skills plus the gloria.dev MCP server). Restart Claude Code if prompted. The first MCP call opens a one-time browser sign-in.
+The first command registers this marketplace; the second installs the `doc-holiday` plugin (its skills plus the Doc Holiday MCP server). Restart Claude Code if prompted. Set `DOC_HOLIDAY_API_KEY` in your environment first so the plugin can authenticate (see [Authentication](#authentication)).
 
 ### OpenAI Codex
 
@@ -45,11 +55,7 @@ The first command registers this marketplace; the second installs the `doc-holid
 codex plugin marketplace add sandgardenhq/doc-holiday   # in your shell
 ```
 
-Then, inside Codex, run `/plugins` and install **doc-holiday**. Finally, complete the one-time OAuth handshake with the remote MCP server:
-
-```bash
-codex mcp login doc-holiday                             # in your shell
-```
+Then, inside Codex, run `/plugins` and install **doc-holiday**. Set `DOC_HOLIDAY_API_KEY` in your environment so the plugin can authenticate to the Doc Holiday MCP server (see [Authentication](#authentication)).
 
 ### OpenCode
 
@@ -59,7 +65,7 @@ OpenCode has no marketplace — add Doc Holiday as a plugin in your `opencode.js
 { "plugin": ["doc-holiday@git+https://github.com/sandgardenhq/doc-holiday.git"] }
 ```
 
-OpenCode installs the plugin, which registers Doc Holiday's skills and the remote MCP server. The first MCP call opens a one-time browser sign-in. Pin a version with a git ref (`…/doc-holiday.git#v0.2.1`).
+OpenCode installs the plugin, which registers Doc Holiday's skills and the remote MCP server. Set `DOC_HOLIDAY_API_KEY` in your environment so the plugin can authenticate (see [Authentication](#authentication)). Pin a version with a git ref (`…/doc-holiday.git#v0.3.0`).
 
 ### Cursor
 
@@ -71,7 +77,7 @@ mkdir -p ~/.cursor/plugins/local
 ln -sf ~/.cursor/plugins/sources/doc-holiday/plugins/doc-holiday ~/.cursor/plugins/local/doc-holiday
 ```
 
-Open Cursor's Customize sidebar → Plugins and enable **doc-holiday** if it isn't already on. The first MCP call opens a one-time browser sign-in.
+Open Cursor's Customize sidebar → Plugins and enable **doc-holiday** if it isn't already on. Set `DOC_HOLIDAY_API_KEY` in your environment so the plugin can authenticate (see [Authentication](#authentication)).
 
 If your org is on a Cursor Team or Enterprise plan, an admin can instead import this repo once for everyone: Dashboard → Settings → Plugins → Team Marketplaces → Import → `sandgardenhq/doc-holiday`.
 
@@ -96,8 +102,7 @@ The skills' behavior is unchanged; only the marketplace they publish through is 
 ## Links
 
 - Doc Holiday — <https://doc.holiday>
-- gloria.dev — <https://gloria.dev>
-- MCP server — <https://mcp.gloria.dev/mcp>
+- MCP server — <https://api.doc.holiday/mcp>
 
 ---
 

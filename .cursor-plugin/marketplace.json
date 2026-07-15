@@ -5,14 +5,14 @@
     "email": "gloria@sandgarden.com"
   },
   "metadata": {
-    "description": "Doc Holiday plugins for Cursor — documentation skills wired to the gloria.dev MCP server's doc_holiday_* tools."
+    "description": "Doc Holiday plugins for Cursor — documentation skills wired to the Doc Holiday's doc_holiday_* MCP tools."
   },
   "plugins": [
     {
       "name": "doc-holiday",
       "source": "./plugins/doc-holiday",
-      "description": "Turn a documentation site map into ready-to-run Doc Holiday prompts, and drive Doc Holiday's documentation service via the gloria.dev MCP server.",
-      "version": "0.2.4"
+      "description": "Turn a documentation site map into ready-to-run Doc Holiday prompts, and drive Doc Holiday's documentation service via the Doc Holiday MCP server.",
+      "version": "0.3.0"
     }
   ]
 }
