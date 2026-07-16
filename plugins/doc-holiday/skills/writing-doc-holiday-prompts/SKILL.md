@@ -59,7 +59,7 @@ Target **one Publication for the whole docs site** by default, with each page la
 
 3. **Derive the Instruction Library entries** (the cross-cutting guidance, written once):
    - **Brand voice** — the project's voice/tone (from README/CLAUDE.md), attached to **every** slot.
-   - **Intent-vs-implementation framing** — the "code is the source of truth for what was built; hold it against what you intended" model, which the docs should reflect.
+   - **Intent-vs-implementation framing** — the gloria.dev "the code is the source of truth for what was built; hold it against what you intended" model, where the docs should reflect it.
    - **One style entry per Diátaxis mode** — tutorial / how-to / reference / explanation, each encoding that mode's job (a tutorial guarantees a first success; reference is austere and structured like the API; explanation is read-once understanding with no task; how-to assumes competence). These are what keep each page in its mode.
      Note for each entry **which slots/pages it attaches to** (e.g. the reference-style entry → every `[R]` page's slot).
 
@@ -88,13 +88,13 @@ Target **one Publication for the whole docs site** by default, with each page la
    - **Mode:** reference · **Audience:** an integrator wiring the MCP server.
    - **Question it answers:** "What MCP tools does Canary expose and what are their args?"
    - **Scope:** `/packages/mcp/` (source of truth from the content plan).
-   - **Target:** Publication "Canary docs" → `tools/canary/mcp-reference.md`.
+   - **Target:** Publication "gloria.dev docs" → `tools/canary/mcp-reference.md`.
    - **Slots:** brand-voice, reference-style.
 
    **Create**
 
    ```
-   @doc.holiday create new documentation about the Canary MCP tools in /packages/mcp/ for Publication "Canary docs", landing at tools/canary/mcp-reference.md. Write it as Diátaxis reference for an integrator wiring the MCP server, answering "what MCP tools does Canary expose and what are their args?". Apply the brand-voice and reference-style instruction slots (mode style comes from the slot, not this prompt).
+   @doc.holiday create new documentation about the Canary MCP tools in /packages/mcp/ for Publication "gloria.dev docs", landing at tools/canary/mcp-reference.md. Write it as Diátaxis reference for an integrator wiring the MCP server, answering "what MCP tools does Canary expose and what are their args?". Apply the brand-voice and reference-style instruction slots (mode style comes from the slot, not this prompt).
    ```
 
    **Maintain**
@@ -110,7 +110,7 @@ Target **one Publication for the whole docs site** by default, with each page la
    **Create (stub — tool not yet shipped)**
 
    ```
-   @doc.holiday create new documentation about the planned "Cost Tracking" tool as a short coming-soon placeholder, landing at tools/cost-tracking/_index.md in Publication "Canary docs". Say the capability is on the roadmap and do not invent feature details, commands, or APIs — there is no implementation to read yet.
+   @doc.holiday create new documentation about the planned "Cost Tracking" tool as a short coming-soon placeholder, landing at tools/cost-tracking/_index.md in Publication "gloria.dev docs". Say the capability is on the roadmap and do not invent feature details, commands, or APIs — there is no implementation to read yet.
    ```
    ````
 

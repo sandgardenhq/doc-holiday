@@ -1,10 +1,7 @@
 {
   "mcpServers": {
     "doc-holiday": {
-      "url": "https://api.doc.holiday/mcp",
-      "headers": {
-        "Authorization": "Bearer ${DOC_HOLIDAY_API_KEY}"
-      }
+      "url": "https://mcp.gloria.dev/mcp"
     }
   }
 }
