@@ -1,6 +1,6 @@
 {
   "name": "doc-holiday",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "type": "module",
   "description": "Doc Holiday OpenCode plugin — documentation skills + the gloria.dev MCP server's doc_holiday_* tools.",
   "homepage": "https://doc.holiday",
