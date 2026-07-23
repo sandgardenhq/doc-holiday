@@ -12,7 +12,7 @@
       "name": "doc-holiday",
       "source": "./plugins/doc-holiday",
       "description": "Turn a documentation site map into ready-to-run Doc Holiday prompts, and drive Doc Holiday's documentation service via the gloria.dev MCP server.",
-      "version": "0.3.2"
+      "version": "0.3.3"
     }
   ]
 }
