@@ -1,103 +1,85 @@
 <h1 align="center">Doc Holiday</h1>
 
 <p align="center">
-  <strong>Plan, generate, and maintain your docs from the code that is the source of truth.</strong>
+  <strong>This repo has moved to <a href="https://github.com/sandgardenhq/plugins">sandgardenhq/plugins</a>.</strong>
 </p>
 
 ---
 
-This is the plugin marketplace for **[Doc Holiday](https://doc.holiday)** — the documentation service behind [gloria.dev](https://gloria.dev). One repo serves multiple coding agents — [Claude Code](https://docs.claude.com/en/docs/claude-code/plugins), [OpenAI Codex](https://developers.openai.com/codex/plugins), [OpenCode](https://opencode.ai), and [Cursor](https://cursor.com) — from a single published source. Install the `doc-holiday` plugin and your agent gets Doc Holiday's documentation skills plus the hosted gloria.dev MCP server (`doc_holiday_*` tools).
-
-> **Extracted from the `gloria` marketplace.** Doc Holiday's skills used to ship inside the general-purpose [`sandgardenhq/gloria`](https://github.com/sandgardenhq/gloria) plugin. They now live here so Doc Holiday's surface can grow on its own. If you previously installed `writing-doc-holiday-prompts`, `defining-the-documentation-site-map`, or `capturing-documentation-screenshots` via the `gloria` marketplace, keep it or reinstall it here — see [Migrating from the gloria marketplace](#migrating-from-the-gloria-marketplace) below.
-
-## What is Doc Holiday?
-
-Doc Holiday turns your codebase into a documentation site and keeps it current. You plan the information architecture, Doc Holiday writes and maintains the pages — each reconciled against the source of truth in the code. gloria.dev exposes Doc Holiday to coding agents through nine `doc_holiday_*` MCP tools (authenticated by a per-org key) and a set of skills for planning and prompting the docs.
-
-## What's in the `doc-holiday` plugin
-
-Installing the plugin gives your agent Doc Holiday's skills and wires up the hosted MCP server. (Cursor's marketplace has no individual-user self-service install command yet — see its section below for the working-today local-plugin install.)
-
-| Skill                                     | What it does                                                                                                                                                                                                      |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`defining-the-documentation-site-map`** | Scans the source and emits a Diátaxis-organized documentation site map plus a per-page content plan and a Mermaid hierarchy.                                                                                      |
-| **`writing-doc-holiday-prompts`**         | Turns a documentation site map + per-page content plan into ready-to-run `@doc.holiday` create/update prompts, plus reusable Instruction Library entries.                                                         |
-| **`capturing-documentation-screenshots`** | Drives a browser to capture real product-UI screenshots for docs pages, crops out chrome/PII, and wires them in — plus exact capture instructions for shots (terminal, IDE, native dialogs) it can't take itself. |
-
-The plugin also registers the remote **gloria.dev MCP server** at `https://mcp.gloria.dev/mcp` (Streamable HTTP) under the name **doc-holiday**. The agent uses it to drive Doc Holiday's documentation service via the `doc_holiday_*` tools. The server is OAuth-protected; the first request triggers a one-time browser sign-in.
+The `doc-holiday` plugin now ships from the **`sandgarden`** marketplace at **[sandgardenhq/plugins](https://github.com/sandgardenhq/plugins)**, together with gloria, miranda, and doc-holiday. This repo is no longer updated and will be archived.
 
 ## Install
 
-Pick your agent. Each command below is run from inside that agent unless noted.
+Run each command from inside the agent unless noted.
 
 ### Claude Code
 
-```bash
-/plugin marketplace add sandgardenhq/doc-holiday
-/plugin install doc-holiday@doc-holiday
+```text
+/plugin marketplace add sandgardenhq/plugins
+/plugin install doc-holiday@sandgarden
 ```
-
-The first command registers this marketplace; the second installs the `doc-holiday` plugin (its skills plus the gloria.dev MCP server). Restart Claude Code if prompted. The first MCP call opens a one-time browser sign-in.
 
 ### OpenAI Codex
 
 ```bash
-codex plugin marketplace add sandgardenhq/doc-holiday   # in your shell
+codex plugin marketplace add sandgardenhq/plugins   # in your shell
 ```
 
-Then, inside Codex, run `/plugins` and install **doc-holiday**. Finally, complete the one-time OAuth handshake with the remote MCP server:
+Then, inside Codex, run `/plugins`, install `doc-holiday`, and start a new session. Finally, complete the one-time OAuth handshake for the plugin's MCP server:
 
 ```bash
-codex mcp login doc-holiday                             # in your shell
+codex mcp login doc-holiday   # in your shell
 ```
 
 ### OpenCode
 
-OpenCode has no marketplace — add Doc Holiday as a plugin in your `opencode.json` (global `~/.config/opencode/opencode.json` or a project-local `opencode.json`), then restart OpenCode:
+Add the plugin to your `opencode.json`, then restart OpenCode:
 
 ```json
-{ "plugin": ["doc-holiday@git+https://github.com/sandgardenhq/doc-holiday.git"] }
+{ "plugin": ["@sandgarden/doc-holiday"] }
 ```
-
-OpenCode installs the plugin, which registers Doc Holiday's skills and the remote MCP server. The first MCP call opens a one-time browser sign-in. Pin a version with a git ref (`…/doc-holiday.git#v0.2.1`).
 
 ### Cursor
 
-Cursor shipped its own plugin marketplace in February 2026 (Cursor 2.5), and this repo ships a real Cursor plugin (`.cursor-plugin/`) bundling the same skills and MCP server as the Claude/Codex plugin. Cursor has no individual-user self-service "add a marketplace repo" command yet, so clone this repo and symlink the plugin into Cursor's local plugins directory:
-
 ```bash
-git -C ~/.cursor/plugins/sources/doc-holiday pull || git clone https://github.com/sandgardenhq/doc-holiday.git ~/.cursor/plugins/sources/doc-holiday
+git -C ~/.cursor/plugins/sources/sandgarden pull || git clone https://github.com/sandgardenhq/plugins.git ~/.cursor/plugins/sources/sandgarden
 mkdir -p ~/.cursor/plugins/local
-ln -sf ~/.cursor/plugins/sources/doc-holiday/plugins/doc-holiday ~/.cursor/plugins/local/doc-holiday
+rm -rf ~/.cursor/plugins/local/doc-holiday
+cp -R ~/.cursor/plugins/sources/sandgarden/plugins/doc-holiday ~/.cursor/plugins/local/doc-holiday
 ```
 
-Open Cursor's Customize sidebar → Plugins and enable **doc-holiday** if it isn't already on. The first MCP call opens a one-time browser sign-in.
+Copy rather than symlink: Cursor does not load a symlinked local plugin (see [cursor/plugins#35](https://github.com/cursor/plugins/issues/35)). Restart Cursor or run **Developer: Reload Window**.
 
-If your org is on a Cursor Team or Enterprise plan, an admin can instead import this repo once for everyone: Dashboard → Settings → Plugins → Team Marketplaces → Import → `sandgardenhq/doc-holiday`.
+## Already installed from this repo? Switch over
 
-## Migrating from the gloria marketplace
+- **Claude Code:** remove the old `doc-holiday` marketplace, then install from `sandgarden` as above:
 
-`writing-doc-holiday-prompts`, `defining-the-documentation-site-map`, and `capturing-documentation-screenshots` previously shipped inside the `gloria` plugin. Nothing breaks on the day of the switch: an existing install keeps the copies it has. To move to this marketplace:
+  ```text
+  /plugin marketplace remove doc-holiday
+  ```
 
-1. (Optional) Remove the skills from your `gloria` install by updating that plugin — after the extraction it no longer bundles them.
-2. Add this marketplace and install `doc-holiday` using the [Install](#install) commands for your agent.
+- **OpenAI Codex:** remove the old `doc-holiday` marketplace, then install from `sandgarden` as above:
 
-The skills' behavior is unchanged; only the marketplace they publish through is different.
+  ```bash
+  codex plugin marketplace remove doc-holiday   # in your shell
+  ```
 
-## Updating
+- **OpenCode:** in `opencode.json`, replace `doc-holiday@git+https://github.com/sandgardenhq/doc-holiday.git` with `@sandgarden/doc-holiday`, clear OpenCode's plugin cache, and restart OpenCode:
 
-| Agent        | Command                                                         |
-| ------------ | --------------------------------------------------------------- |
-| Claude Code  | `/plugin marketplace update doc-holiday` then `/reload-plugins` |
-| OpenAI Codex | `codex plugin marketplace upgrade doc-holiday` (restart Codex)  |
-| OpenCode     | `rm -rf ~/.cache/opencode/node_modules/doc-holiday` and restart |
-| Cursor       | `git -C ~/.cursor/plugins/sources/doc-holiday pull`             |
+  ```bash
+  rm -rf ~/.cache/opencode/node_modules
+  ```
 
-## Links
+- **Cursor:** delete the old symlink or copy and the old clone, then follow the [Cursor install steps](#cursor):
 
-- Doc Holiday — <https://doc.holiday>
-- gloria.dev — <https://gloria.dev>
-- MCP server — <https://mcp.gloria.dev/mcp>
+  ```bash
+  rm -rf ~/.cursor/plugins/local/doc-holiday ~/.cursor/plugins/sources/doc-holiday
+  ```
+
+## Learn more
+
+- Full install guide, for every agent and plugin: <https://github.com/sandgardenhq/plugins#readme>
+- Doc Holiday: <https://doc.holiday>
 
 ---
 
